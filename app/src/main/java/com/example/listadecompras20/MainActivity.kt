@@ -1,0 +1,67 @@
+package com.example.listadecompras20
+
+import android.content.Intent
+import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ListView
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.get
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_main)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        // Armazenar os Ids
+        val listaProdutos = findViewById<ListView>(R.id.list_item)
+        val btnAdicionar = findViewById<Button>(R.id.btn_adicionar)
+
+        //Definir Adapter
+        val produtosAdapter = ArrayAdapter<String>(
+            this,
+            android.R.layout.simple_list_item_1
+        )
+
+        //Implementacao do adaptador na lista
+        listaProdutos.adapter = produtosAdapter
+
+        //Remover item da lista
+        listaProdutos.setOnItemClickListener { parent, view, position, id ->
+            //Buscando o produto e convertendo para string
+            val produtos = parent.getItemAtPosition(position) as? String
+
+            produtos?.let {
+                produtosAdapter.remove(it)
+                Toast.makeText(
+                    this@MainActivity,
+                    "$it foi removido da lista",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            //Retorna indicando que o clique foi realizado com sucesso
+            true
+        }
+
+        btnAdicionar.setOnClickListener {
+            // Criando a intent
+            val intent = Intent(this, CadastroActivity::class.java)
+            //Iniciando a atividade
+            startActivity(intent)
+        }
+
+
+    }
+}
