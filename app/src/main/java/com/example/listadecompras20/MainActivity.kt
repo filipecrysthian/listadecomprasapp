@@ -29,10 +29,7 @@ class MainActivity : AppCompatActivity() {
         val btnAdicionar = findViewById<Button>(R.id.btn_adicionar)
 
         //Definir Adapter
-        val produtosAdapter = ArrayAdapter<String>(
-            this,
-            android.R.layout.simple_list_item_1
-        )
+        val produtosAdapter = ProdutosAdapter(this)
 
         //Implementacao do adaptador na lista
         listaProdutos.adapter = produtosAdapter
@@ -42,14 +39,14 @@ class MainActivity : AppCompatActivity() {
             //Buscando o produto e convertendo para string
             val produtos = parent.getItemAtPosition(position) as? String
 
-            produtos?.let {
-                produtosAdapter.remove(it)
-                Toast.makeText(
-                    this@MainActivity,
-                    "$it foi removido da lista",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+//            produtos?.let {
+//                produtosAdapter.remove(it)
+//                Toast.makeText(
+//                    this@MainActivity,
+//                    "$it foi removido da lista",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
 
             //Retorna indicando que o clique foi realizado com sucesso
             true
@@ -61,7 +58,14 @@ class MainActivity : AppCompatActivity() {
             //Iniciando a atividade
             startActivity(intent)
         }
-
-
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        val adapter = findViewById<ListView>(R.id.list_item).adapter as ProdutosAdapter
+        adapter.clear()
+        adapter.addAll(produtosGlobal)
+    }
+
 }
