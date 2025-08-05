@@ -6,12 +6,15 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.get
+import java.text.NumberFormat
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,6 +69,13 @@ class MainActivity : AppCompatActivity() {
         val adapter = findViewById<ListView>(R.id.list_item).adapter as ProdutosAdapter
         adapter.clear()
         adapter.addAll(produtosGlobal)
+
+        // Soma os valores dos itens da lista
+        val txtTotal = findViewById<TextView>(R.id.txt_total)
+        val soma = produtosGlobal.sumByDouble { it.valor * it.quantidade }
+        val f = NumberFormat.getCurrencyInstance(Locale("pt","br"))
+        txtTotal.text = "TOTAL: ${f.format(soma)}"
+
     }
 
 }
