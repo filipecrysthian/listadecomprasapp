@@ -1,5 +1,6 @@
 package com.example.listadecompras20
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -9,6 +10,8 @@ import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -61,6 +64,7 @@ class MainActivity : AppCompatActivity() {
             //Iniciando a atividade
             startActivity(intent)
         }
+
     }
 
     override fun onResume() {
@@ -73,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         // Soma os valores dos itens da lista
         val txtTotal = findViewById<TextView>(R.id.txt_total)
         val soma = produtosGlobal.sumByDouble { it.valor * it.quantidade }
-        val f = NumberFormat.getCurrencyInstance(Locale("pt","br"))
+        val f = NumberFormat.getCurrencyInstance(Locale("pt", "br"))
         txtTotal.text = "TOTAL: ${f.format(soma)}"
 
     }
